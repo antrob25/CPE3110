@@ -5,7 +5,7 @@ int main()
     // multiplicand is the multiplicand, multiplier is the multiplier, and tempNum is a temperary array for arithmetic purposes
     int temp[12], multiplicand[12], multiplier[12]; 
     // multiplicandNum is the number of bits in multiplicand, multiplierNum is the number of bits in multiplier, and shiftBitCounter is the number of bits left to shift
-    int multiplicandNum = 0, multiplierNum = 0, shiftBitCounter, boothType = -1; 
+    int multiplicandNum = 0, multiplierNum = 0, shiftBitCounter = 0, boothType = -1; 
 
     while ( boothType < 0 || boothType > 1 )
     {
@@ -16,14 +16,14 @@ int main()
         switch ( boothType )
         {
             case 0:
-                boothSetup( multiplicand, multiplier, temp, multiplicandNum, multiplierNum, boothType);
+                boothSetup( multiplicand, multiplier, temp, multiplicandNum, multiplierNum);
                 shiftBitCounter = multiplierNum; 
                 boothAlgorithm(multiplicand, multiplier, temp, multiplierNum, shiftBitCounter); 
                 break;
             case 1:
-                boothSetup( multiplicand, multiplier, temp, multiplicandNum, multiplierNum, boothType);
+                boothSetup( multiplicand, multiplier, temp, multiplicandNum, multiplierNum);
                 shiftBitCounter = multiplierNum; 
-                boothAlgorithm(multiplicand, multiplier, temp, multiplierNum, shiftBitCounter); 
+                boothAlgorithmExtended(multiplicand, multiplier, temp, multiplierNum, shiftBitCounter); 
                 break;
             default:
                 cout << "Choose a number between 0 and 1!" << endl;

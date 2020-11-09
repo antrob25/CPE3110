@@ -17,7 +17,7 @@ void bitShiftRight( int accumulator[], int multiplier[], int& qn, int multiplier
 // Displays the accumulator and the multiplier bits.
 void outputBits( int accumulator[], int multiplier[], int multiplierNum );
 // Sets the bit size of the numbers for the multiplication
-void boothSetup( int multiplicand[], int multiplier[], int tempNum[], int& multiplicandNum, int& multiplierNum, int boothType);
+void boothSetup( int multiplicand[], int multiplier[], int tempNum[], int& multiplicandNum, int& multiplierNum);
 // Uses booth's algorithm to multiply the two numbers.
 void boothAlgorithm( int multiplicand[], int multiplier[], int tempNum[], int multiplierNum, int shiftBitCounter );
 // Uses booth's algorithm extended to multiply the two numbers.

@@ -56,35 +56,19 @@ void outputBits(int accumulator[], int multiplier[], int multiplierNum)
         cout << multiplier[i]; 
 } 
 
-void boothSetup( int multiplicand[], int multiplier[], int tempNum[], int& multiplicandNum, int& multiplierNum, int boothType)
+void boothSetup( int multiplicand[], int multiplier[], int tempNum[], int& multiplicandNum, int& multiplierNum)
 {
     string bits;
-    int bitNum = 0;
+    int bitNum = -100;
 
-    if ( boothType == 0 )
+    while ( bitNum < 4 || bitNum > 12)
     {
-        while ( bitNum < 4 || bitNum > 12)
-        {
-            cout << "Enter a number with the bit size of 4 to 12" << endl;
-            cin >> bits;
-            bitNum = bits.size();
-            if ( bitNum < 4 || bitNum > 12 )
-                cout << "Wrong bit size" << endl;
-        }
-    }
-    else if ( boothType == 1 )
-    {
-        while ( (bitNum < 4 || bitNum > 12) && (bitNum %2 != 0) )
-        {
-            cout << "Enter a number with the bit size of 4 to 12" << endl;
-            cin >> bits;
-            bitNum = bits.size();
-            if ( bitNum < 4 || bitNum > 12 )
-                cout << "Wrong bit size" << endl;
-            if ( bitNum %2 != 0)
-                cout << "Number does not have an even number of bits" << endl;
-        }
-    }       
+        cout << "Enter a number with the bit size of 4 to 12" << endl;
+        cin >> bits;
+        bitNum = bits.size();
+        if ( bitNum < 4 || bitNum > 12 )
+            cout << "Wrong bit size" << endl;
+    }    
 
     for ( int i = 0; i < bitNum; i++ )
     {
@@ -103,31 +87,14 @@ void boothSetup( int multiplicand[], int multiplier[], int tempNum[], int& multi
 
     twosComplementBits(tempNum, multiplicandNum); 
 
-    bitNum = 0;
-    if ( boothType == 0 )
+    bitNum = -100;
+    while ( bitNum < 4 || bitNum > 12 )
     {
-        while ( bitNum < 4 || bitNum > 12 )
-        {
-            cout << "Enter a number with the bit size of 4 to 12" << endl;
-            cin >> bits;
-            bitNum = bits.size();
-            if ( bitNum < 4 || bitNum > 12 )
-                cout << "Wrong bit size" << endl;
-        }
-    }
-
-    else 
-    {
-        while ( ( bitNum < 4 || bitNum > 12 ) && (bitNum %2 != 0) )
-        {
-            cout << "Enter a number with the bit size of 4 to 12" << endl;
-            cin >> bits;
-            bitNum = bits.size();
-            if ( bitNum < 4 || bitNum > 12 )
-                cout << "Wrong bit size" << endl;
-            if ( bitNum %2 != 0)
-                cout << "Number does not have an even number of bits" << endl;
-        }
+        cout << "Enter a number with the bit size of 4 to 12" << endl;
+        cin >> bits;
+        bitNum = bits.size();
+        if ( bitNum < 4 || bitNum > 12 )
+            cout << "Wrong bit size" << endl;
     }
 
     for ( int i = 0; i < bitNum; i++ )
@@ -144,7 +111,7 @@ void boothSetup( int multiplicand[], int multiplier[], int tempNum[], int& multi
   
 void boothAlgorithm( int multiplicand[], int multiplier[], int tempNum[], int multiplierNum, int shiftBitCounter ) 
 { 
-    int qn = 0, accumulator[12] = { 0 }; 
+    int qn = 0, accumulator[multiplierNum] = { 0 }; 
     int temp = 0, counter = 0;
     cout << "qn   ext   multiplicand   accumulator    multiplier   Counter\n"; 
     cout << "            initial        "; 
@@ -160,7 +127,6 @@ void boothAlgorithm( int multiplicand[], int multiplier[], int tempNum[], int mu
             if (temp == 0) 
             { 
                 addNums(accumulator, tempNum, multiplierNum); 
-                counter++; 
                 cout << "    ac = ac - mc   "; 
                   
                 for (int i = multiplierNum - 1; i >= 0; i--) 
@@ -173,7 +139,6 @@ void boothAlgorithm( int multiplicand[], int multiplier[], int tempNum[], int mu
             { 
                 // add multiplicand to accumulator 
                 addNums( accumulator, multiplicand, multiplierNum ); 
-                counter++; 
                 cout << "    ac = ac + mc   "; 
                   
                 for (int i = multiplierNum - 1; i >= 0; i--) 
@@ -211,8 +176,8 @@ void boothAlgorithm( int multiplicand[], int multiplier[], int tempNum[], int mu
 
 void boothAlgorithmExtended(int multiplicand[], int multiplier[], int tempNum[], int multiplierNum, int shiftBitCounter) 
 { 
-    int qn = 0, accumulator[12] = { 0 }; 
-    int temp = 0, counter = 0;
+    int qn = 0, qn2 = multiplier[0], accumulator[multiplierNum] = { 0 }; 
+    int counter = 0;
     
     cout << "qn   ext   multiplicand   accumulator    multiplier   Counter\n"; 
     cout << "            initial        "; 
@@ -222,45 +187,80 @@ void boothAlgorithmExtended(int multiplicand[], int multiplier[], int tempNum[],
       
     while ( shiftBitCounter != 0 ) 
     {
-        cout << multiplier[0] << "      " << qn;
-        if ((qn + multiplier[0]) == 1)
+        cout << multiplier[1] << "      " << qn2 << "  " << qn;
+        if ( ( qn + qn2 == 1 ) && ( multiplier[1] == 0 ) )
         {
-            if (temp == 0)
-            {
-                addNums(accumulator, tempNum, multiplierNum);
-                counter++;
-                cout << "    ac = ac - mc   ";
+            addNums(accumulator, multiplicand, multiplierNum);
+            cout << "    ac = ac + mc   ";
 
-                for (int i = multiplierNum - 1; i >= 0; i--)
-                    cout << accumulator[i];
-
-                temp = 1;
-            }
-
-            else if (temp == 1)
-            {
-                // add multiplicand to accumulator
-                addNums(accumulator, multiplicand, multiplierNum);
-                counter++;
-                cout << "    ac = ac + mc   ";
-
-                for (int i = multiplierNum - 1; i >= 0; i--)
-                    cout << accumulator[i];
-
-                temp = 0;
-            }
+            for (int i = multiplierNum - 1; i >= 0; i--)
+                cout << accumulator[i];
 
             cout << "\n         ";
             bitShiftRight(accumulator, multiplier, qn, multiplierNum);
-            shiftBitCounter--;
+            bitShiftRight(accumulator, multiplier, qn, multiplierNum);
+            qn2 = multiplier[0];
+            shiftBitCounter-=2;
             counter++; 
         }
 
-        else if (qn - multiplier[0] == 0)
+        else if ( ( qn + qn2 == 1 ) && ( multiplier[1] == 1 ) )
+        {
+            addNums(accumulator, tempNum, multiplierNum);
+            cout << "    ac = ac - mc   ";
+
+            for (int i = multiplierNum - 1; i >= 0; i--)
+                cout << accumulator[i];
+
+            cout << "\n         ";
+            bitShiftRight(accumulator, multiplier, qn, multiplierNum);
+            bitShiftRight(accumulator, multiplier, qn, multiplierNum);
+            qn2 = multiplier[0];
+            shiftBitCounter-=2;
+            counter++; 
+        }
+
+        else if ( ( qn == 1 ) && ( qn2 == 1 ) && ( multiplier[1] == 0 ) )
+        {
+            addNums(accumulator, multiplicand, multiplierNum);
+            addNums(accumulator, multiplicand, multiplierNum);
+            cout << "    ac = ac + 2mc   ";
+
+            for (int i = multiplierNum - 1; i >= 0; i--)
+                cout << accumulator[i];
+
+            cout << "\n         ";
+            bitShiftRight(accumulator, multiplier, qn, multiplierNum);
+            bitShiftRight(accumulator, multiplier, qn, multiplierNum);
+            qn2 = multiplier[0];
+            shiftBitCounter-=2;
+            counter++; 
+        }
+
+        else if ( ( qn == 0 ) && ( qn2 == 0 ) && ( multiplier[1] == 1 ) )
+        {
+            addNums(accumulator, tempNum, multiplierNum);
+            addNums(accumulator, tempNum, multiplierNum);
+            cout << "    ac = ac - 2mc   ";
+
+            for (int i = multiplierNum - 1; i >= 0; i--)
+                cout << accumulator[i];
+
+            cout << "\n         ";
+            bitShiftRight(accumulator, multiplier, qn, multiplierNum);
+            bitShiftRight(accumulator, multiplier, qn, multiplierNum);
+            qn2 = multiplier[0];
+            shiftBitCounter-=2;
+            counter++; 
+        }
+
+        else if ( qn == multiplier[1] && qn2 == multiplier[1] )
         {
             cout << " ";
             bitShiftRight(accumulator, multiplier, qn, multiplierNum);
-            shiftBitCounter--;
+            bitShiftRight(accumulator, multiplier, qn, multiplierNum);
+            qn2 = multiplier[0];
+            shiftBitCounter-=2;
             counter++;
         }
         cout << "   bitShiftRight  ";
